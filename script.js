@@ -36,4 +36,20 @@ function checkAnswer(inputId, correctAnswer) {
     feedback.style.color = "red";
   }
 }
+function checkDifficult(inputId, correctAnswer, nextPage) {
+  const userAnswer = document.getElementById(inputId).value.trim();
+  const feedback = document.getElementById(inputId + '-feedback');
+
+  if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+    feedback.textContent = "✅ Correct! Proceeding...";
+    feedback.style.color = "green";
+    // Redirect after 1 second
+    setTimeout(() => {
+      window.location.href = nextPage;
+    }, 1000);
+  } else {
+    feedback.textContent = "❌ Wrong answer, try again!";
+    feedback.style.color = "red";
+  }
+}
 
