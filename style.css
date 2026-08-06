@@ -26,3 +26,41 @@ body {
   background: rgba(255, 255, 255, 0.7);
   display: inline-block;
 }
+/* 🎈 Balloon Styles */
+.balloon {
+  width: 100px;
+  height: 140px;
+  border-radius: 50%;
+  margin: 20px;
+  display: inline-block;
+  cursor: pointer;
+  box-shadow: 0 0 10px #fff;
+  transition: transform 0.3s;
+}
+
+.balloon:hover {
+  transform: scale(1.1);
+}
+
+.red { background: red; }
+.green { background: green; }
+.purple { background: purple; }
+
+/* 💬 Popup Message */
+.popup {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #3b1f0d;
+}
+
+/* 🎉 Confetti Styles */
+.confetti {
+  position: absolute;
+  font-size: 20px;
+  animation: fall 2s linear forwards;
+}
+
+@keyframes fall {
+  from { transform: translateY(0); }
+  to { transform: translateY(300px); opacity: 0; }
+}
