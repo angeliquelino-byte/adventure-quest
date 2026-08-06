@@ -25,3 +25,15 @@ function launchConfetti() {
     setTimeout(() => confetti.remove(), 2000);
   }
 }
+function checkAnswer(inputId, correctAnswer) {
+  const userAnswer = document.getElementById(inputId).value.trim();
+  const feedback = document.getElementById(inputId + '-feedback');
+  if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+    feedback.textContent = "✅ Correct!";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "❌ Wrong, try again!";
+    feedback.style.color = "red";
+  }
+}
+
