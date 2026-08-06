@@ -1,0 +1,28 @@
+body {
+  background: #f4e1c1 url('assets/images/parchment-bg.jpg') no-repeat center center fixed;
+  font-family: 'Trebuchet MS', serif;
+  color: #3b1f0d;
+  text-align: center;
+}
+
+.glow {
+  text-shadow: 0 0 10px #ffd700, 0 0 20px #ff8c00;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #3b1f0d;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.parchment {
+  padding: 40px;
+  border: 3px solid #5c2e0d;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  display: inline-block;
+}
