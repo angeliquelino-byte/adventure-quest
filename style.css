@@ -1,66 +1,104 @@
-body {
-  background: #f4e1c1 url('assets/images/parchment-bg.jpg') no-repeat center center fixed;
-  font-family: 'Trebuchet MS', serif;
-  color: #3b1f0d;
-  text-align: center;
+/* Tech-themed redesign */
+:root{
+  --bg1:#071021;
+  --bg2:#0b1220;
+  --accent:#00e6a8;
+  --accent2:#7c5cff;
+  --card:#07182a88;
+  --glass: rgba(255,255,255,0.03);
 }
 
-.glow {
-  text-shadow: 0 0 10px #ffd700, 0 0 20px #ff8c00;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: radial-gradient(1200px 600px at 10% 20%, rgba(124,92,255,0.12), transparent),
+              linear-gradient(180deg,var(--bg1),var(--bg2));
+  color:#cfeef5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #3b1f0d;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  margin-top: 20px;
+.card{
+  width:min(820px,94%);
+  padding:36px;
+  border-radius:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: 0 10px 30px rgba(2,6,23,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+  border: 1px solid rgba(124,92,255,0.12);
+  text-align:center;
 }
 
-.parchment {
-  padding: 40px;
-  border: 3px solid #5c2e0d;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.7);
-  display: inline-block;
-}
-/* 🎈 Balloon Styles */
-.balloon {
-  width: 100px;
-  height: 140px;
-  border-radius: 50%;
-  margin: 20px;
-  display: inline-block;
-  cursor: pointer;
-  box-shadow: 0 0 10px #fff;
-  transition: transform 0.3s;
+.title{
+  font-family: 'Roboto Mono', monospace;
+  font-weight:700;
+  font-size:1.6rem;
+  margin:0 0 12px 0;
+  color:var(--accent);
+  text-shadow:0 0 10px rgba(0,230,168,0.14);
 }
 
-.balloon:hover {
-  transform: scale(1.1);
+.q-text{font-size:1.1rem;margin:10px 0 18px;color:#bfeee4}
+input[type="text"]{
+  padding:10px 12px;
+  width:60%;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:var(--glass);
+  color:#e6fff9;
+  outline:none;
 }
 
-.red { background: red; }
-.green { background: green; }
-.purple { background: purple; }
-
-/* 💬 Popup Message */
-.popup {
-  margin-top: 20px;
-  font-size: 1.2em;
-  color: #3b1f0d;
+.primary{
+  display:inline-block;
+  margin-left:12px;
+  padding:10px 16px;
+  border-radius:8px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#021018;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(124,92,255,0.12);
 }
 
-/* 🎉 Confetti Styles */
-.confetti {
-  position: absolute;
-  font-size: 20px;
-  animation: fall 2s linear forwards;
-}
+.feedback{margin-top:12px;height:20px;font-weight:700}
+.feedback.success{color: #7ef0c9}
+.feedback.error{color:#ff6b6b}
 
-@keyframes fall {
-  from { transform: translateY(0); }
-  to { transform: translateY(300px); opacity: 0; }
+.choices{display:flex;flex-direction:column;gap:10px;align-items:center}
+.choice{
+  width:70%;
+  padding:12px 16px;
+  border-radius:8px;
+  background:rgba(255,255,255,0.02);
+  color:#dffbf3;
+  border:1px solid rgba(255,255,255,0.04);
+  cursor:pointer;
+  font-weight:700;
+}
+.choice:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(2,6,23,0.5)}
+
+/* Balloons & gallery */
+#balloon-area{display:flex;gap:18px;justify-content:center;margin-top:14px}
+.balloon{width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;cursor:pointer;transition:transform .25s}
+.balloon.tech{background:linear-gradient(135deg,#00e6a8,#7c5cff);color:#021018;box-shadow:0 8px 30px rgba(124,92,255,0.12)}
+.balloon:active{transform:scale(0.9)}
+
+#balloon-messages{margin-top:16px;min-height:48px}
+.popup-msg{padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);display:inline-block;color:#bfeee4}
+
+.hidden{display:none}
+.photos{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.photos img{width:180px;height:120px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.04)}
+
+.final-glow{margin-top:18px;color:var(--accent);text-shadow:0 0 18px rgba(0,230,168,0.18);}
+
+/* small screens */
+@media (max-width:600px){
+  input[type="text"]{width:100%}
+  .choice{width:100%}
+  .photos img{width:45vw;height:30vw}
 }

@@ -2,36 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Easy Round</title>
+  <title>Easy Round — Question 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="parchment">
-    <h2 class="glow">🟢 Easy Round</h2>
+  <div class="card">
+    <h2 class="title">Easy Round — Question 1</h2>
 
     <div class="question">
-      <p>What language do computers understand?</p>
-      <input type="text" id="q1" placeholder="Type your answer">
-      <button onclick="checkAnswer('q1','Binary')">Submit</button>
-      <p id="q1-feedback"></p>
+      <p class="q-text">What language do computers understand?</p>
+      <input type="text" id="q1" placeholder="Type your answer" autocomplete="off">
+      <button class="primary" onclick="checkAnswer('q1','Binary','easy2.html')">Submit</button>
+      <p id="q1-feedback" class="feedback"></p>
     </div>
-
-    <div class="question">
-      <p>Which civilization invented cuneiform?</p>
-      <input type="text" id="q2" placeholder="Type your answer">
-      <button onclick="checkAnswer('q2','Sumerians')">Submit</button>
-      <p id="q2-feedback"></p>
-    </div>
-
-    <div class="question">
-      <p>Largest organ in the human body?</p>
-      <input type="text" id="q3" placeholder="Type your answer">
-      <button onclick="checkAnswer('q3','Skin')">Submit</button>
-      <p id="q3-feedback"></p>
-    </div>
-
-    <a href="difficult1.html" class="btn">Proceed to Difficult Round</a>
   </div>
 </body>
 </html>

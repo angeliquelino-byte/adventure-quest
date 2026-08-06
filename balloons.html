@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Balloons</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="card">
+    <h2 class="title">Pop the Balloons!</h2>
+    <p class="q-text">Click each balloon to reveal a message.</p>
+
+    <div id="balloon-area">
+      <div class="balloon tech" id="balloon1" onclick="popBalloon(this, '31 years old na nganii!')">🎈</div>
+      <div class="balloon tech" id="balloon2" onclick="popBalloon(this, 'Oops got ya, I do not have a tangible gift but consider this project and future adventure my gift.')">🎈</div>
+    </div>
+
+    <div id="balloon-messages"></div>
+
+    <div id="gallery" class="hidden">
+      <div class="photos">
+        <img src="assets/images/photo1.jpg" alt="photo1">
+        <img src="assets/images/photo2.jpg" alt="photo2">
+        <img src="assets/images/photo3.jpg" alt="photo3">
+        <img src="assets/images/photo4.jpg" alt="photo4">
+      </div>
+
+      <h2 class="final-glow">Happy Birthday!</h2>
+    </div>
+  </div>
+</body>
+</html>

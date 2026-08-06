@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Difficult Round 1</title>
+  <title>Difficult Round — Question 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="parchment">
-    <h2 class="glow">🔴 Difficult Question 1</h2>
-    <p>Traffic light turns yellow:</p>
+  <div class="card">
+    <h2 class="title">Difficult Round — Question 1</h2>
+    <p class="q-text">Traffic light turns yellow. What should you do?</p>
 
-    <input type="text" id="dq1" placeholder="Type your answer">
-    <button onclick="checkDifficult('dq1','Slow down and prepare to stop','difficult2.html')">Submit</button>
-    <p id="dq1-feedback"></p>
+    <div class="choices">
+      <button class="choice" onclick="chooseOption('dq1','Slow down and prepare to stop','difficult2.html')">Slow down and prepare to stop</button>
+      <button class="choice" onclick="chooseOption('dq1','Speed up to pass the intersection','difficult2.html')">Speed up to pass the intersection</button>
+      <button class="choice" onclick="chooseOption('dq1','Turn off your lights','difficult2.html')">Turn off your lights</button>
+    </div>
+
+    <p id="dq1-feedback" class="feedback"></p>
   </div>
 </body>
 </html>
