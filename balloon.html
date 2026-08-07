@@ -1,19 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Balloon Surprise</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reward — Pop the Balloons</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="parchment">
-    <h2 class="glow">🎈 Pop the Balloons!</h2>
-    <div class="balloons">
-      <div class="balloon red" onclick="popBalloon(this,'31 Years kana nganiii!')"></div>
-      <div class="balloon green" onclick="popBalloon(this,'<img src=\'assets/images/surprise1.jpg\' alt=\'Surprise\'>')"></div>
-      <div class="balloon purple" onclick="popBalloon(this,'🎊 Happy Birthday!')"></div>
+  <main class="balloon-stage">
+    <div>
+      <h2 style="text-align:center">Claim your reward</h2>
+      <p style="text-align:center;color:var(--muted)">Click the balloons — pop for messages.</p>
+      <div class="balloons" id="balloons">
+        <div class="balloon" id="b1">1</div>
+        <div class="balloon small" id="b2">2</div>
+      </div>
+      <div class="pop-msg" id="popmsg"></div>
+
+      <div id="images" class="images-grid hidden">
+        <div class="img-placeholder"><img id="img1" class="resp" src="images/pic1.jpg" alt="picture 1"></div>
+        <div class="img-placeholder"><img id="img2" class="resp" src="images/pic2.jpg" alt="picture 2"></div>
+        <div class="img-placeholder"><img id="img3" class="resp" src="images/pic3.jpg" alt="picture 3"></div>
+        <div class="img-placeholder"><img id="img4" class="resp" src="images/pic4.jpg" alt="picture 4"></div>
+      </div>
+
+      <div id="final" class="final-msg hidden">Happy birthday! 🎉</div>
+
+      <p class="small" style="text-align:center;margin-top:14px">If images don't appear, add four images under <code>images/pic1.jpg</code> ... <code>pic4.jpg</code> in the repository.</p>
     </div>
-  </div>
+  </main>
+
+<script>
+  const b1 = document.getElementById('b1');
+  const b2 = document.getElementById('b2');
+  const popmsg = document.getElementById('popmsg');
+  const images = document.getElementById('images');
+  const final = document.getElementById('final');
+
+  let state = {popped1:false,popped2:false};
+
+  b1.addEventListener('click',()=>{
+    if(state.popped1) return;
+    state.popped1 = true;
+    b1.style.transform = 'scale(0.1)';
+    b1.style.opacity = '0';
+    popmsg.textContent = '31 years old na nganii!';
+    popmsg.style.color = 'var(--accent)';
+  });
+
+  b2.addEventListener('click',()=>{
+    if(state.popped2) return;
+    state.popped2 = true;
+    b2.style.transform = 'scale(0.1)';
+    b2.style.opacity = '0';
+    popmsg.innerHTML = 'Oops got ya, I do not have a tangible gift but consider this project and future adventure my gift.';
+    // after a moment reveal images and final message
+    setTimeout(()=>{
+      images.classList.remove('hidden');
+      final.classList.remove('hidden');
+    },900);
+  });
+</script>
 </body>
 </html>

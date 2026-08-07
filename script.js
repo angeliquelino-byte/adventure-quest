@@ -1,107 +1,126 @@
-let balloonPopCount = 0;
+// script.js — quiz flow for easy and difficult rounds
 
-function launchConfetti() {
-  for (let i = 0; i < 20; i++) {
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti';
-    confetti.innerText = '🎉';
-    confetti.style.position = 'fixed';
-    confetti.style.left = Math.random() * window.innerWidth + 'px';
-    confetti.style.top = Math.random() * -100 + 'px';
-    confetti.style.fontSize = (10 + Math.random() * 24) + 'px';
-    confetti.style.opacity = 0.9;
-    document.body.appendChild(confetti);
+const easyQuestions = [
+  {q: "What's his favorite language?", a: "javascript"},
+  {q: "What city does he work in?", a: "manila"},
+  {q: "How many years old is he?", a: "31"}
+];
 
-    // animate falling
-    const endY = window.innerHeight + 100;
-    const duration = 2000 + Math.random() * 1200;
-    confetti.animate([
-      { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
-      { transform: `translateY(${endY}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-    ], { duration: duration, easing: 'linear' });
+const difficultQuestions = [
+  {q: "Which OS does he prefer?", choices: ["Windows","macOS","Linux","FreeBSD"], correct:2},
+  {q: "Which editor does he use most?", choices: ["Sublime","Vim","VS Code","Atom"], correct:2},
+  {q: "Choose his favorite cloud provider:", choices: ["AWS","GCP","Azure","DigitalOcean"], correct:0}
+];
 
-    // Remove confetti after animation
-    setTimeout(() => confetti.remove(), duration + 50);
-  }
+let state = {round:null,index:0};
+
+const intro = document.getElementById('intro');
+const quiz = document.getElementById('quiz');
+const finished = document.getElementById('finished');
+const claim = document.getElementById('claim');
+
+document.getElementById('start-easy').addEventListener('click',()=>start('easy'));
+document.getElementById('start-difficult').addEventListener('click',()=>start('difficult'));
+claim.addEventListener('click',()=>location.href='balloon.html');
+
+function start(round){
+  state.round = round; state.index = 0;
+  intro.classList.add('hidden');
+  finished.classList.add('hidden');
+  quiz.classList.remove('hidden');
+  renderQuestion();
 }
 
-function checkAnswer(inputId, correctAnswer, nextPage) {
-  const input = document.getElementById(inputId);
-  const feedback = document.getElementById(inputId + '-feedback');
-  const userAnswer = input.value.trim();
+function renderQuestion(){
+  quiz.innerHTML = '';
+  const container = document.createElement('div');
+  container.className = 'quiz-question card';
 
-  if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-    feedback.textContent = '✅ Correct!';
-    feedback.classList.remove('error');
-    feedback.classList.add('success');
-    launchConfetti();
-    setTimeout(() => {
-      if (nextPage) window.location.href = nextPage;
-    }, 900);
+  if(state.round === 'easy'){
+    const data = easyQuestions[state.index];
+    container.innerHTML = `
+      <div class="q-title">Easy — Question ${state.index+1} of ${easyQuestions.length}</div>
+      <div class="small">${escapeHtml(data.q)}</div>
+      <div class="input-row">
+        <input id="answer" type="text" placeholder="Type your answer" autocomplete="off">
+        <button id="submit" class="btn">Submit</button>
+      </div>
+      <div id="feedback" aria-live="polite"></div>
+    `;
+    quiz.appendChild(container);
+    const input = document.getElementById('answer');
+    const submit = document.getElementById('submit');
+    const feedback = document.getElementById('feedback');
+    input.focus();
+    submit.addEventListener('click',()=>checkEasy(data,input.value,feedback,container));
+    input.addEventListener('keydown',e=>{if(e.key==='Enter') submit.click()});
   } else {
-    feedback.textContent = '❌ Wrong, try again!';
-    feedback.classList.remove('success');
-    feedback.classList.add('error');
-    // subtle shake
-    input.animate([
-      { transform: 'translateX(0)' },
-      { transform: 'translateX(-8px)' },
-      { transform: 'translateX(8px)' },
-      { transform: 'translateX(0)' }
-    ], { duration: 260 });
+    const data = difficultQuestions[state.index];
+    container.innerHTML = `
+      <div class="q-title">Difficult — Question ${state.index+1} of ${difficultQuestions.length}</div>
+      <div class="small">${escapeHtml(data.q)}</div>
+      <div class="choice-list" id="choices"></div>
+      <div id="feedback" aria-live="polite"></div>
+    `;
+    quiz.appendChild(container);
+    const choices = document.getElementById('choices');
+    data.choices.forEach((c,i)=>{
+      const el = document.createElement('button');
+      el.className = 'choice'; el.textContent = c;
+      el.addEventListener('click',()=>checkDifficult(i, data, el, container));
+      choices.appendChild(el);
+    });
   }
 }
 
-function chooseOption(questionId, chosenValue, nextPage) {
-  // questionId is only used for feedback element id mapping
-  const feedback = document.getElementById(questionId + '-feedback');
-  // Determine correct choice by the text included in the onclick call (we expect the correct option to be the one matching the string used in the call)
-  // For safety, embed the correct answers in a map
-  const correctMap = {
-    dq1: 'Slow down and prepare to stop',
-    dq2: 'SFTP',
-    dq3: 'Queue'
-  };
-
-  const correct = correctMap[questionId];
-  if (chosenValue === correct) {
-    feedback.textContent = '✅ Correct! Proceeding...';
-    feedback.classList.remove('error');
-    feedback.classList.add('success');
-    launchConfetti();
-    setTimeout(() => { if (nextPage) window.location.href = nextPage; }, 900);
+function checkEasy(data, val, feedback, container){
+  const normalized = (val||'').trim().toLowerCase();
+  if(!normalized) {showError(feedback,'Please type an answer.');shake(container);return}
+  if(normalized === data.a.toLowerCase()){
+    showSuccess(feedback,'Correct! Proceeding...');
+    setTimeout(()=>{nextOrFinish()},700);
   } else {
-    feedback.textContent = '❌ Wrong answer, try again!';
-    feedback.classList.remove('success');
-    feedback.classList.add('error');
+    showError(feedback,'Wrong answer — try again.');shake(container);
   }
 }
 
-function popBalloon(balloon, message) {
-  // play pop effect
-  balloon.style.transform = 'scale(0.2)';
-  balloon.style.opacity = '0';
-  setTimeout(() => balloon.style.display = 'none', 250);
-
-  // append message
-  const area = document.getElementById('balloon-messages');
-  const el = document.createElement('div');
-  el.className = 'popup-msg';
-  el.innerText = message;
-  area.appendChild(el);
-
-  balloonPopCount++;
-  launchConfetti();
-
-  // Once both balloons popped, reveal gallery
-  if (balloonPopCount >= 2) {
-    setTimeout(() => {
-      const gallery = document.getElementById('gallery');
-      if (gallery) gallery.classList.remove('hidden');
-      // scroll to gallery
-      gallery.scrollIntoView({ behavior: 'smooth' });
-      // small extra confetti
-      launchConfetti();
-    }, 700);
+function checkDifficult(choiceIndex, data, el, container){
+  const feedback = container.querySelector('#feedback');
+  if(choiceIndex === data.correct){
+    showSuccess(feedback,'Correct choice!');
+    el.style.background = 'linear-gradient(90deg,var(--accent),var(--accent-2))';
+    el.style.color = '#051124';
+    setTimeout(()=>{nextOrFinish()},700);
+  } else {
+    showError(feedback,'That one is incorrect. Try again.');
+    el.classList.add('shake');
+    setTimeout(()=>el.classList.remove('shake'),500);
   }
 }
+
+function nextOrFinish(){
+  const max = state.round === 'easy' ? easyQuestions.length : difficultQuestions.length;
+  state.index += 1;
+  if(state.index >= max){
+    quiz.classList.add('hidden');
+    finished.classList.remove('hidden');
+  } else {
+    renderQuestion();
+  }
+}
+
+function showError(el, msg){
+  el.innerHTML = `<div class="error">${escapeHtml(msg)}</div>`;
+}
+function showSuccess(el, msg){
+  el.innerHTML = `<div class="success">${escapeHtml(msg)}</div>`;
+}
+function shake(el){
+  el.classList.add('shake');
+  setTimeout(()=>el.classList.remove('shake'),450);
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[ch]||ch));}
+
+// Small accessibility note: focus management could be improved for screen readers; this is intentionally lightweight.
